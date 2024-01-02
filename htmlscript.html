@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Example</title>
+</head>
+<body>
+    <h1>WebSocket Example</h1>
+    <label for="Local ip">Local ip:</label>
+    <input type="text" id="input1"><br>
+
+    <label for="Local port">Local port:</label>
+    <input type="text" id="input2"><br>
+
+    <label for="url">url:</label>
+    <input type="text" id="input3"><br>
+
+    <button onclick="sendMessage()">Send Message</button>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:3001');
+        let message;
+        function sendMessage() {
+            const input1 = document.getElementById('input1').value;
+            const input2 = document.getElementById('input2').value;
+            const input3 = document.getElementById('input3').value;
+            message = JSON.stringify({ input1, input2, input3 });
+
+            // step 3
+            ws.send(message);
+            console.log("step3 executed");
+        }
+
+
+        // step 9
+        ws.onmessage = (event) => {
+            event.data.text().then(jsonString => {
+            const request = JSON.parse(jsonString);
+            const parsedMessage = JSON.parse(message);
+            console.log("before step 9");
+            if(request.method == 'GET'){
+            fetch(`http://${parsedMessage['input1']}:${parsedMessage['input2']}`, {
+                method: request.method, 
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...request.headers  
+                },
+                // body: JSON.stringify(request)
+                })
+                .then(response => response.text())
+                .then(responseText => {
+                    // step 10
+                    console.log('Response from mycool server:',responseText);
+                    ws.send(responseText);
+                    console.log("step 11 executed");
+                })
+                .catch(error => {
+                    console.error('Error making GET request to mycool server:', error);
+                });
+            }
+            else{
+                console.log("post request");
+                fetch(`http://${parsedMessage['input1']}:${parsedMessage['input2']}`, {
+                method: request.method, 
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...request.headers  
+                },
+                body: JSON.stringify(request)
+                })
+                .then(response => response.text())
+                .then(responseText => {
+                    // step 10
+                    console.log('Response from mycool server:', JSON.parse(responseText));
+                    ws.send(responseText);
+                    console.log("step 11 executed");
+                })
+                .catch(error => {
+                    console.error('Error making GET request to mycool server:', error);
+                });
+            }
+            });
+        };
+    </script>
+</body>
+</html> 
+<!-- -- ---------------------------------------------------------------------------------------------------- --> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Example</title>
+</head>
+<body>
+    <h1>WebSocket Example</h1>
+    <label for="Local ip">Local ip:</label>
+    <input type="text" id="input1"><br>
+
+    <label for="Local port">Local port:</label>
+    <input type="text" id="input2"><br>
+
+    <label for="url">url:</label>
+    <input type="text" id="input3"><br>
+
+    <button onclick="sendMessage()">Send Message</button>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:3001');
+        let message;
+        function sendMessage() {
+            const input1 = document.getElementById('input1').value;
+            const input2 = document.getElementById('input2').value;
+            const input3 = document.getElementById('input3').value;
+            message = JSON.stringify({ input1, input2, input3 });
+
+            // step 3
+            ws.send(message);
+            console.log("step3 executed");
+        }
+
+
+        // step 9
+        ws.onmessage = (event) => {
+            event.data.text().then(jsonString => {
+            const request = JSON.parse(jsonString);
+            const parsedMessage = JSON.parse(message);
+            console.log("before step 9");
+            fetch(`http://localhost:${parsedMessage['input2']}`, {
+                method: request.method, 
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...request.headers  
+                },
+                // body: JSON.stringify(request)
+                })
+                .then(response => response.text())
+                .then(responseText => {
+                    // step 10
+                    console.log('Response from mycool server:', JSON.parse(responseText));
+                    ws.send(responseText);
+                    console.log("step 11 executed");
+                })
+                .catch(error => {
+                    console.error('Error making GET request to mycool server:', error);
+                });
+            });
+        };
+    </script>
+</body>
+</html>  -->
