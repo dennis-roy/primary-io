@@ -1,0 +1,120 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Web App</title>
+</head>
+<body>
+  <h1>Simple Web App</h1>
+
+  <div id="message"></div>
+
+  <button onclick="getData()">Get Data</button>
+  <button onclick="updateData()">Update Data</button>
+  <button onclick="deleteData()">Delete Data</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    async function getData() {
+      const response = await axios.get('http://localhost:3000/api/data');
+      console.log(response)
+      displayMessage(response.data.message);
+    }
+
+    async function updateData() {
+      const response = await axios.post('http://localhost:3000/api/data', { message: 'Updated message from the client!' });
+      displayMessage(response.data.message);
+    }
+
+    async function deleteData() {
+      const response = await axios.delete('http://localhost:3000/api/data');
+      displayMessage(response.data.message);
+    }
+
+    function displayMessage(message) {
+      document.getElementById('message').innerText = message;
+    }
+  </script>
+</body>
+</html> -->
+
+<!-- ----------------------------------------------------------------------------------------------------------- -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Web App</title>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simple Web App</h1>
+
+  <div id="message"></div>
+
+  <button onclick="getData()">Get Data</button>
+  <button onclick="updateData()">Update Data</button>
+  <button onclick="deleteData()">Delete Data</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+        async function getData() {
+      const response = await axios.get('http://localhost:3000/api/data');
+      displayMessage(response.data.message);
+    }
+
+    async function updateData() {
+      const response = await axios.post('http://localhost:3000/api/data', { message: 'Updated message from the client!' });
+      displayMessage(response.data.message);
+    }
+
+    async function deleteData() {
+      const response = await axios.delete('http://localhost:3000/api/data');
+      displayMessage(response.data.message);
+    }
+
+    function displayMessage(message) {
+      document.getElementById('message').innerText = message;
+    }// Your JavaScript code remains unchanged
+  </script>
+</body>
+</html>
